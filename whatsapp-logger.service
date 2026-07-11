@@ -1,0 +1,20 @@
+[Unit]
+Description=WhatsApp Group Chat Logger
+Documentation=https://github.com/NousResearch/hermes-agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart={{APP_DIR}}/logger.py --log-dir {{LOG_DIR}} --data-dir {{DATA_DIR}}
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits
+CPUQuota=50%
+MemoryMax=512M
+
+[Install]
+WantedBy=default.target
