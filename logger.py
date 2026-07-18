@@ -344,7 +344,7 @@ def save_media(media_urls: list, media_type: str, media_dir: Path,
 #
 # A small Markdown table at <LOG_DIR>/groups_index.md listing every group
 # that has actually been recorded (i.e. passed is_group_recorded). Columns:
-#   群 ID | 群名 | 最近消息 | 本月文件
+#   Group ID | Group name | Latest message | Monthly file
 # The index is rebuilt on startup (from the file itself) and updated on every
 # recorded message, debounced to one write per 60s.
 
@@ -401,10 +401,10 @@ def _update_index(chat_id: str, name: str, ts: str, month_str: str) -> None:
 def _write_index() -> None:
     """Render _index_cache as a Markdown table and write to groups_index.md."""
     INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
-    lines = ["# 群组索引", ""]
-    lines.append(f"更新时间：{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    lines = ["# Group Index", ""]
+    lines.append(f"Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     lines.append("")
-    lines.append("| 群 ID | 群名 | 最近消息 | 本月文件 |")
+    lines.append("| Group ID | Group name | Latest message | Monthly file |")
     lines.append("|-------|------|---------|---------|")
     # Sort by last_ts descending (most recently active first)
     for gid, info in sorted(_index_cache.items(),

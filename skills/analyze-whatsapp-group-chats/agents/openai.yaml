@@ -1,0 +1,4 @@
+interface:
+  display_name: "WhatsApp Group Chat Analysis"
+  short_description: "Analyze priorities, work status, and chat trends"
+  default_prompt: "Use $analyze-whatsapp-group-chats to summarize this week’s urgent matters, important decisions, and completed or outstanding work."
