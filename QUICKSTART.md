@@ -19,7 +19,7 @@ cd ~/devel/whatsapp-logger
 ## 2. 首次扫码认证 + 配置群组
 
 ```bash
-python3 ~/service/whatsapp-logger/logger.py config account
+node ~/service/whatsapp-logger/logger.js config account
 ```
 
 终端显示二维码后，在手机 WhatsApp 中依次进入：
@@ -70,7 +70,7 @@ journalctl --user -u whatsapp-logger -f
 
 ```bash
 systemctl --user stop whatsapp-logger
-python3 ~/service/whatsapp-logger/logger.py config account
+node ~/service/whatsapp-logger/logger.js config account
 ```
 
 `config account` 会把旧 session 重命名为 `session.backup-<时间戳>`（不删除，可恢复）。确认新账号工作正常后，可以删除旧 session 备份。如果需要恢复旧账号，停止服务，将当前 `session/` 移走，再把对应备份改名为 `session/`。

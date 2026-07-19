@@ -6,11 +6,11 @@ Wants=network-online.target
 [Service]
 Type=simple
 WorkingDirectory={{APP_DIR}}
-# node and python3 are often installed via nvm/pyenv/asdf in directories that
+# node is often installed via nvm/pyenv/asdf in directories that
 # are not on systemd user services' default PATH. install.sh resolves their
 # bin directories and injects them here.
 Environment=PATH={{EXTRA_PATH}}:/usr/local/bin:/usr/bin:/bin
-ExecStart={{APP_DIR}}/logger.py --log-dir {{LOG_DIR}} run
+ExecStart=/usr/bin/env node {{APP_DIR}}/logger.js --log-dir {{LOG_DIR}} run
 Restart=always
 RestartSec=10
 StandardOutput=journal

@@ -2,6 +2,12 @@
 
 更新时间：2026-07-18
 
+## v4 Node.js 重构（2026-07-19）
+
+- `logger.js` 已取代 Python logger，保留 `run`、`config account`、`config group` CLI 与全部目录、配置、Markdown、JSONL 兼容性。
+- Baileys bridge 继续作为独立 Node.js 进程，通过原有 `/health`、`/messages`、`/groups` 接口协作；Hermes 发送接口未改动。
+- 运行入口为 `node logger.js` 或 `npm start`；systemd 与安装说明不再依赖 Python。
+
 ## 当前状态
 
 核心链路已经修正并通过静态检查与本地落盘测试，项目已上线稳定运行。

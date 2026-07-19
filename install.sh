@@ -3,10 +3,10 @@
 #
 # Default layout (flat layout under the install dir):
 #   ~/service/whatsapp-logger/
-#   ├── logger.py
+#   ├── logger.js
 #   ├── bridge/
 #   ├── install.sh, *.service, *.md
-#   ├── config.json        # written by logger.py
+#   ├── config.json        # written by logger.js
 #   ├── session/           # Baileys pairing credentials
 #   ├── cache/            # media cache
 #   └── logs/             # default chat records root (configurable)
@@ -135,11 +135,11 @@ SERVICE_DST="$HOME/.config/systemd/user/$SERVICE_NAME.service"
 if [ -f "$SERVICE_SRC" ]; then
     mkdir -p "$(dirname "$SERVICE_DST")"
     cp "$SERVICE_SRC" "$SERVICE_DST"
-    # Collect bin directories for node and python3. systemd user services get
+    # Collect bin directories for node and npm. systemd user services get
     # a minimal PATH (/usr/bin:/bin) by default, so tools installed via nvm,
     # pyenv, asdf, homebrew, etc. are invisible unless we inject them here.
     extra_paths=()
-    for tool in node npm python3; do
+    for tool in node npm; do
         bin_path="$(command -v "$tool" 2>/dev/null | xargs dirname 2>/dev/null)"
         if [ -n "$bin_path" ] && [ -d "$bin_path" ]; then
             seen=0
@@ -160,7 +160,7 @@ if [ -f "$SERVICE_SRC" ]; then
         fi
     done
     if [ -z "$EXTRA_PATH" ]; then
-        echo "⚠  Could not resolve node/python3 paths. Service PATH may need manual adjustment."
+        echo "⚠  Could not resolve node/npm paths. Service PATH may need manual adjustment."
         EXTRA_PATH="/usr/local/bin"
     fi
     # Render placeholders
@@ -182,7 +182,7 @@ echo ""
 echo "Next steps:"
 echo ""
 echo "  1) Pair a WhatsApp account and configure groups:"
-echo "       python3 $INSTALL_DIR/logger.py config account"
+echo "       node $INSTALL_DIR/logger.js config account"
 echo "       After pairing, the service starts and group selection opens automatically."
 echo ""
 echo "  2) Verify the service is active:"

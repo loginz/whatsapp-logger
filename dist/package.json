@@ -1,0 +1,11 @@
+{
+  "name": "whatsapp-group-chat-logger",
+  "version": "4.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node logger.js",
+    "test": "node --test"
+  },
+  "engines": { "node": ">=18" }
+}

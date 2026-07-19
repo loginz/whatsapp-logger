@@ -9,7 +9,7 @@ WhatsApp
    ↕ (WebSocket)
 Baileys Bridge (Node.js, 端口 3001)
    ↕ HTTP (long-poll /messages)
-logger.py (Python)
+logger.js (Node.js)
    ↓
 <安装目录>/logs/
 ├── groups_index.md              # 顶层索引
@@ -27,7 +27,7 @@ logger.py (Python)
 
 ```
 ~/service/whatsapp-logger/
-├── logger.py                # 主程序（含 config account / config group / run 三个子命令）
+├── logger.js                # 主程序（含 config account / config group / run 三个子命令）
 ├── bridge/                  # Baileys bridge (Node.js)
 │   ├── bridge.js
 │   ├── bridge_helpers.js
@@ -52,7 +52,7 @@ logger.py (Python)
 
 | 文件 | 说明 |
 |------|------|
-| `logger.py` | 主程序：config account / config group / run 三个子命令 |
+| `logger.js` | 主程序：config account / config group / run 三个子命令 |
 | `bridge/` | Baileys bridge (Node.js) |
 | `install.sh` | 一键安装脚本（交互式） |
 | `whatsapp-logger.service` | systemd 服务模板（含 `{{APP_DIR}}` / `{{LOG_DIR}}` 占位符） |
@@ -61,10 +61,10 @@ logger.py (Python)
 ## CLI 用法
 
 ```bash
-python3 logger.py --help
-python3 logger.py config account --help
-python3 logger.py config group --help
-python3 logger.py run --help
+node logger.js --help
+node logger.js config account --help
+node logger.js config group --help
+node logger.js run --help
 ```
 
 ### 子命令
@@ -78,20 +78,20 @@ python3 logger.py run --help
 ### `logger config group` 的选项
 
 ```bash
-python3 logger.py config group                  # 交互式选择群组
-python3 logger.py config group --list           # 查看所有群及当前录制状态
-python3 logger.py config group --record-all     # 记录所有群（包括以后新增的）
-python3 logger.py config group --init           # 记录所有当前群（首次设置）
-python3 logger.py config group --add "仁爱"     # 按名称添加（子串匹配）
-python3 logger.py config group --remove "We are Family"  # 按名称移除
+node logger.js config group                  # 交互式选择群组
+node logger.js config group --list           # 查看所有群及当前录制状态
+node logger.js config group --record-all     # 记录所有群（包括以后新增的）
+node logger.js config group --init           # 记录所有当前群（首次设置）
+node logger.js config group --add "仁爱"     # 按名称添加（子串匹配）
+node logger.js config group --remove "We are Family"  # 按名称移除
 ```
 
 ### 顶层参数（可放在子命令前）
 
 ```bash
-python3 logger.py --port 3002 run
-python3 logger.py --log-dir /path/to/logs run
-python3 logger.py --data-dir /path/to/data run
+node logger.js --port 3002 run
+node logger.js --log-dir /path/to/logs run
+node logger.js --data-dir /path/to/data run
 ```
 
 | 参数 | 环境变量 | 默认值 |
@@ -138,7 +138,7 @@ WHATSAPP_LOGGER_LOG_DIR=/var/log/whatsapp-logger \
 ### 1. 首次扫码 + 配置群组（`config account`）
 
 ```bash
-python3 ~/service/whatsapp-logger/logger.py config account
+node ~/service/whatsapp-logger/logger.js config account
 ```
 
 `config account` 会：
@@ -163,7 +163,7 @@ journalctl --user -u whatsapp-logger -f
 
 ```bash
 systemctl --user stop whatsapp-logger
-python3 ~/service/whatsapp-logger/logger.py config account
+node ~/service/whatsapp-logger/logger.js config account
 # 配对新账号后自动进入群组配置
 ```
 
