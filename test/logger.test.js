@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
-import { createState, isGroupRecorded, parseArgs, processMessage } from '../logger.js';
+import { applyGroupSelection, createState, isGroupRecorded, parseArgs, processMessage } from '../logger.js';
 
 function state() {
   const root = mkdtempSync(path.join(os.tmpdir(), 'wa-logger-'));
@@ -34,4 +34,15 @@ test('writes compatible Markdown, JSONL, media, and group index', async () => {
 
 test('parses existing command-line shape', () => {
   assert.deepEqual(parseArgs(['--port', '3002', 'config', 'group', '--add', 'Family']).options, { port: '3002', add: 'Family' });
+});
+
+test('interactive group selection only exits on done or quit', () => {
+  const groups = [{ id: 'a@g.us' }, { id: 'b@g.us' }];
+  const ids = new Set();
+  assert.deepEqual(applyGroupSelection('1', groups, ids), { done: false, cancelled: false });
+  assert.deepEqual([...ids], ['a@g.us']);
+  assert.deepEqual(applyGroupSelection('2', groups, ids), { done: false, cancelled: false });
+  assert.deepEqual([...ids], ['a@g.us', 'b@g.us']);
+  assert.deepEqual(applyGroupSelection('done', groups, ids), { done: true, cancelled: false });
+  assert.deepEqual(applyGroupSelection('q', groups, ids), { done: true, cancelled: true });
 });
